@@ -18,7 +18,7 @@ exports.user_create = asyncHandler(async (req, res) => {
     (!username || !password || !first_name || !last_name,
     !email || !Array.isArray(roles) || !roles.length)
   ) {
-    return res.status(400).json({ message: "Sorry, all fields are required!" });
+    return res.status(400).json({ message: "All fields are required!" });
   }
 
   // Finding duplicates
@@ -36,8 +36,8 @@ exports.user_create = asyncHandler(async (req, res) => {
     first_name,
     last_name,
     email,
-    password: hashedPassword,
     roles,
+    password: hashedPassword,
   };
 
   // Save user to database
@@ -97,7 +97,7 @@ exports.user_update = asyncHandler(async (req, res) => {
 
   const updatedUser = await user.save();
 
-  res.json({ mesaage: `${updatedUser.username} updated` });
+  res.json({ mesaage: `${updatedUser.username} updated successfully` });
 });
 
 exports.user_delete = asyncHandler(async (req, res) => {
