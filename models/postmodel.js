@@ -1,5 +1,6 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
+const CommentSchema = require("./comment");
 
 const PostModel = new Schema({
   title: {
@@ -28,8 +29,7 @@ const PostModel = new Schema({
 
   comments: [
     {
-      type: Schema.Types.ObjectId,
-      ref: "Comments",
+      type: [CommentSchema],
       required: false,
     },
   ],
