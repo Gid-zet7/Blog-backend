@@ -3,11 +3,6 @@ const Schema = mongoose.Schema;
 
 const CommentSchema = new Schema(
   {
-    date_created: {
-      type: Date,
-      default: Date.now(),
-    },
-
     author: {
       type: Schema.Types.ObjectId,
       ref: "User",
