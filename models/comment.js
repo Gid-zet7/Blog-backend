@@ -14,10 +14,8 @@ const CommentSchema = new Schema(
       required: true,
     },
 
-    parent_comment_id: {
-      type: Schema.Types.ObjectId,
-      ref: "Comment",
-      required: false,
+    username: {
+      type: String,
     },
   },
   {
