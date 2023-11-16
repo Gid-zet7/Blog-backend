@@ -4,8 +4,8 @@ const asyncHandler = require("express-async-handler");
 const bcrypt = require("bcrypt");
 
 exports.user_list = asyncHandler(async (req, res) => {
-  const users = await User.find().select("password").lean();
-  if (!users) {
+  const users = await User.find().select("-password").lean();
+  if (!users?.length) {
     return res.status(400).json({ message: "No users found" });
   }
   res.json(users);
@@ -107,7 +107,9 @@ exports.user_delete = asyncHandler(async (req, res) => {
     return res.status(400).json({ message: "User ID required" });
   }
 
-  const post = await Post.findOne({ user: id }).lean().exec();
+  const post = await Post.findOne({ author: id }).lean().exec();
+
+  console.log(post);
   if (post) {
     return res.status(400).json({ message: "This user has assigned posts" });
   }
@@ -119,7 +121,7 @@ exports.user_delete = asyncHandler(async (req, res) => {
 
   const result = await user.deleteOne();
 
-  const message = `Username ${result.username} with ID ${result._id} deleted`;
+  const message = "User deleted successfully";
 
   res.json(message);
 });
