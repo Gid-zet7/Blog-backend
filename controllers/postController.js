@@ -42,7 +42,7 @@ exports.post_create = [
     .withMessage("Category cannot be empty"),
 
   asyncHandler(async (req, res) => {
-    const { author, title, content, image, comments, category } = req.body;
+    const { id, author, title, content, image, comments, category } = req.body;
 
     const errors = validationResult(req);
 
@@ -60,9 +60,17 @@ exports.post_create = [
         .json({ message: "Title already used by another author" });
     }
 
+    const findAuthor = await User.findOne({ username: author }).exec();
+
+    console.log(findAuthor);
+
+    if (!findAuthor) {
+      return res.status(400).json({ message: "Could not find author" });
+    }
+
     const post = await Post.create({
       title,
-      author,
+      author: findAuthor,
       image,
       content,
       comments,
@@ -70,7 +78,9 @@ exports.post_create = [
     });
 
     if (post) {
-      return res.status(201).json({ message: "New post created" });
+      return res
+        .status(201)
+        .json({ message: `New post with title '${post.title}' created` });
     } else {
       return res.status(400).json({ message: "Invalid" });
     }
@@ -83,6 +93,11 @@ exports.post_update = [
     .isLength({ min: 3, max: 1000 })
     .escape()
     .withMessage("Title cannot be empty"),
+  body("author")
+    .trim()
+    .notEmpty()
+    .escape()
+    .withMessage("Author cannot be empty"),
   body("image.url").escape(),
   body("image.owner").escape(),
   body("image.source").escape(),
@@ -122,8 +137,14 @@ exports.post_update = [
         .json({ message: "Title already used by another author" });
     }
 
+    const findAuthor = await User.findOne({ username: author }).exec();
+
+    if (!findAuthor) {
+      return res.status(400).json({ message: "Could not find author" });
+    }
+
     post.title = title;
-    post.author = author;
+    post.author = findAuthor;
     post.image = image;
     post.content = content;
     post.comments = comments;
@@ -150,7 +171,7 @@ exports.post_delete = asyncHandler(async (req, res) => {
 
   const result = await Post.deleteOne();
 
-  const mesaage = `Post '${result.title}' with id ${result._id} deleted successfully`;
+  const message = "Post deleted successfully";
 
   res.json(message);
 });
