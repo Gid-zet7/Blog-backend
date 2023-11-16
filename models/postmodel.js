@@ -30,7 +30,8 @@ const PostModel = new Schema(
 
     comments: [
       {
-        type: [CommentSchema],
+        type: Schema.Types.ObjectId,
+        ref: "Comment",
         required: false,
       },
     ],
