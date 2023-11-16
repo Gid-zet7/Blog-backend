@@ -13,6 +13,7 @@ const connectDB = require("./config/databaseConnection");
 
 const indexRouter = require("./routes/index");
 const usersRouter = require("./routes/users");
+const postsRouter = require("./routes/posts");
 
 const app = express();
 
@@ -27,6 +28,7 @@ app.use(express.static(path.join(__dirname, "public")));
 
 app.use("/", indexRouter);
 app.use("/users", usersRouter);
+app.use("/posts", postsRouter);
 
 app.all("*", (req, res) => {
   res.status(404);
@@ -41,7 +43,7 @@ app.all("*", (req, res) => {
 
 app.use(errorHandler);
 
-const PORT = process.env.PORT || 8000;
+const PORT = process.env.PORT || 9000;
 
 mongoose.connection.once("open", () => {
   console.log("connected to mongoDB");
