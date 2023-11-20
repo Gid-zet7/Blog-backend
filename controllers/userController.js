@@ -63,13 +63,10 @@ exports.user_update = asyncHandler(async (req, res) => {
   } = req.body;
 
   if (
-    (!id || !username || !password || !first_name || !last_name,
-    !email ||
-      !Array.isArray(roles) ||
-      !roles.length ||
-      typeof active !== "boolean")
+    (!id || !username || !first_name || !last_name,
+    !email || !Array.isArray(roles) || !roles.length || !active)
   ) {
-    return res.status(400).json({ message: "Sorry, all fields are required!" });
+    return res.status(400).json({ message: "All fields are required!" });
   }
 
   const user = await User.findById(id).exec();
@@ -97,7 +94,7 @@ exports.user_update = asyncHandler(async (req, res) => {
 
   const updatedUser = await user.save();
 
-  res.json({ mesaage: `${updatedUser.username} updated successfully` });
+  res.json({ message: `${updatedUser.username} updated successfully` });
 });
 
 exports.user_delete = asyncHandler(async (req, res) => {
