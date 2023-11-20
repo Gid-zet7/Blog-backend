@@ -27,10 +27,10 @@ exports.post_create = [
     .isLength({ min: 3, max: 1000 })
     .escape()
     .withMessage("Title cannot be empty"),
-  body("image.url").escape(),
-  body("image.owner").escape(),
-  body("image.source").escape(),
-  body("content")
+  body("dispaly-image.url").escape(),
+  body("dispaly-image.owner").escape(),
+  body("dispaly-image.source").escape(),
+  body("body")
     .trim()
     .notEmpty()
     .escape()
@@ -42,7 +42,7 @@ exports.post_create = [
     .withMessage("Category cannot be empty"),
 
   asyncHandler(async (req, res) => {
-    const { id, author, title, content, image, comments, category } = req.body;
+    const { id, author, title, body, image, comments, category } = req.body;
 
     const errors = validationResult(req);
 
@@ -59,6 +59,7 @@ exports.post_create = [
         .status(400)
         .json({ message: "Title already used by another author" });
     }
+    console.log(author);
 
     const findAuthor = await User.findOne({ username: author }).exec();
 
@@ -72,8 +73,7 @@ exports.post_create = [
       title,
       author: findAuthor,
       image,
-      content,
-      comments,
+      body,
       category,
     });
 
@@ -98,10 +98,10 @@ exports.post_update = [
     .notEmpty()
     .escape()
     .withMessage("Author cannot be empty"),
-  body("image.url").escape(),
-  body("image.owner").escape(),
-  body("image.source").escape(),
-  body("content")
+  body("display-image.url").escape(),
+  body("display-image.owner").escape(),
+  body("display-image.source").escape(),
+  body("body")
     .trim()
     .notEmpty()
     .escape()
@@ -113,7 +113,7 @@ exports.post_update = [
     .withMessage("Category cannot be empty"),
 
   asyncHandler(async (req, res) => {
-    const { id, author, title, content, image, comments, category } = req.body;
+    const { id, author, title, body, image, comments, category } = req.body;
 
     const errors = validationResult(req);
 
@@ -146,7 +146,7 @@ exports.post_update = [
     post.title = title;
     post.author = findAuthor;
     post.image = image;
-    post.content = content;
+    post.body = body;
     post.comments = comments;
     post.category = category;
 
