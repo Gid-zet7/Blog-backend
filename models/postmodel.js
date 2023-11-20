@@ -1,6 +1,5 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
-const CommentSchema = require("./comment");
 
 const PostModel = new Schema(
   {
@@ -23,7 +22,7 @@ const PostModel = new Schema(
       source: String,
     },
 
-    content: {
+    body: {
       type: String,
       required: true,
     },
