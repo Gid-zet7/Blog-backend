@@ -12,6 +12,7 @@ const mongoose = require("mongoose");
 const connectDB = require("./config/databaseConnection");
 
 const indexRouter = require("./routes/index");
+const authRouter = require("./routes/auth");
 const usersRouter = require("./routes/users");
 const postsRouter = require("./routes/posts");
 const commentsRouter = require("./routes/comments");
@@ -28,6 +29,7 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "public")));
 
 app.use("/", indexRouter);
+app.use("/auth", authRouter);
 app.use("/users", usersRouter);
 app.use("/posts", postsRouter);
 app.use("/comments", commentsRouter);
