@@ -29,7 +29,7 @@ exports.login = asyncHandler(async (req, res) => {
       },
     },
     process.env.ACCESS_TOKEN_SECRET,
-    { expiresIn: "10s" }
+    { expiresIn: "20m" }
   );
 
   console.log(findUser.username);
@@ -37,7 +37,7 @@ exports.login = asyncHandler(async (req, res) => {
   const refreshToken = jwt.sign(
     { username: findUser.username },
     process.env.REFRESH_TOKEN_SECRET,
-    { expiresIn: "1d" }
+    { expiresIn: "7d" }
   );
 
   res.cookie("jwt", refreshToken, {
@@ -51,12 +51,11 @@ exports.login = asyncHandler(async (req, res) => {
 });
 
 exports.signup = asyncHandler(async (req, res) => {
-  const { username, first_name, last_name, email, password, roles } = req.body;
+  const { username, first_name, last_name, email, password } = req.body;
 
-  if (
-    (!username || !password || !first_name || !last_name,
-    !email || !Array.isArray(roles) || !roles.length)
-  ) {
+  console.log(username, first_name, last_name, email, password);
+
+  if ((!username || !password || !first_name || !last_name, !email)) {
     return res.status(400).json({ message: "All fields are required!" });
   }
 
@@ -75,7 +74,6 @@ exports.signup = asyncHandler(async (req, res) => {
     first_name,
     last_name,
     email,
-    roles,
     password: hashedPassword,
   };
 
@@ -98,13 +96,10 @@ exports.refresh = asyncHandler(async (req, res) => {
 
   const refreshToken = cookies.jwt;
 
-  console.log(refreshToken);
-
   jwt.verify(
     refreshToken,
     process.env.REFRESH_TOKEN_SECRET,
     asyncHandler(async (err, decoded) => {
-      console.log(err);
       if (err) return res.status(403).json({ message: "Forbidden" });
 
       const findUser = await User.findOne({
@@ -123,7 +118,7 @@ exports.refresh = asyncHandler(async (req, res) => {
           },
         },
         process.env.ACCESS_TOKEN_SECRET,
-        { expiresIn: "60s" }
+        { expiresIn: "20m" }
       );
 
       console.log(accessToken);
