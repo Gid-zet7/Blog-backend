@@ -1,5 +1,6 @@
 const User = require("../models/usermodel");
 const Post = require("../models/postmodel");
+const Comment = require("../models/comment");
 const asyncHandler = require("express-async-handler");
 const { body, validationResult } = require("express-validator");
 
@@ -42,7 +43,7 @@ exports.post_create = [
     .withMessage("Category cannot be empty"),
 
   asyncHandler(async (req, res) => {
-    const { id, author, title, body, image, comments, category } = req.body;
+    const { author, title, body, image, category } = req.body;
 
     const errors = validationResult(req);
 
@@ -52,7 +53,10 @@ exports.post_create = [
       });
     }
 
-    const duplicate = await Post.findOne({ title }).lean().exec();
+    const duplicate = await Post.findOne({ title })
+      .collation({ locale: "en", strength: 2 })
+      .lean()
+      .exec();
 
     if (duplicate) {
       return res
@@ -129,7 +133,10 @@ exports.post_update = [
       return res.status(400).json({ message: "Post not found" });
     }
 
-    const duplicate = await Post.findOne({ title }).lean().exec();
+    const duplicate = await Post.findOne({ title })
+      .collation({ locale: "en", strength: 2 })
+      .lean()
+      .exec();
 
     if (duplicate && duplicate?._id.toString() !== id) {
       return res
