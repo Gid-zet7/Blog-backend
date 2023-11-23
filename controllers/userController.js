@@ -14,15 +14,15 @@ exports.user_list = asyncHandler(async (req, res) => {
 exports.user_create = asyncHandler(async (req, res) => {
   const { username, first_name, last_name, email, password, roles } = req.body;
 
-  if (
-    (!username || !password || !first_name || !last_name,
-    !email || !Array.isArray(roles) || !roles.length)
-  ) {
+  if (!username || !password || !first_name || !last_name || !email) {
     return res.status(400).json({ message: "All fields are required!" });
   }
 
   // Finding duplicates
-  const duplicate = await User.findOne({ username }).lean().exec();
+  const duplicate = await User.findOne({ username })
+    .collation({ locale: "en", strength: 2 })
+    .lean()
+    .exec();
 
   if (duplicate) {
     return res.status(409).json({ message: "Username already exists" });
@@ -31,14 +31,17 @@ exports.user_create = asyncHandler(async (req, res) => {
   // Hashing password
   const hashedPassword = await bcrypt.hash(password, 10);
 
-  const userObj = {
-    username,
-    first_name,
-    last_name,
-    email,
-    roles,
-    password: hashedPassword,
-  };
+  const userObj =
+    !Array.isArray(roles) || !roles.length
+      ? { username, first_name, last_name, email, password: hashedPassword }
+      : {
+          username,
+          first_name,
+          last_name,
+          email,
+          roles,
+          password: hashedPassword,
+        };
 
   // Save user to database
   const user = await User.create(userObj);
@@ -75,7 +78,10 @@ exports.user_update = asyncHandler(async (req, res) => {
     return res.status(400).json({ message: "user not found" });
   }
 
-  const duplicate = await User.findOne({ username }).lean().exec();
+  const duplicate = await User.findOne({ username })
+    .collation({ locale: "en", strength: 2 })
+    .lean()
+    .exec();
 
   if (duplicate && duplicate?._id.toString() !== id) {
     return res.status(409).json({ message: "user already exists" });
