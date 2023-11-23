@@ -27,12 +27,10 @@ const UserSchema = new Schema(
       required: true,
     },
 
-    roles: [
-      {
-        type: String,
-        default: "User",
-      },
-    ],
+    roles: {
+      type: [String],
+      default: ["User"],
+    },
 
     password: {
       type: String,
