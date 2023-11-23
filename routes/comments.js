@@ -4,7 +4,6 @@ const commentController = require("../controllers/commentController");
 
 /* GET users listing. */
 router.get("/list", commentController.get_comments);
-router.get("/", commentController.get_post_comments);
 router.post("/", commentController.comment_create);
 router.patch("/", commentController.comment_edit);
 router.delete("/", commentController.delete_comment);
