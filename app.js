@@ -15,6 +15,7 @@ const indexRouter = require("./routes/index");
 const authRouter = require("./routes/auth");
 const usersRouter = require("./routes/users");
 const postsRouter = require("./routes/posts");
+const publicPosts = require("./routes/publicPosts");
 const commentsRouter = require("./routes/comments");
 
 const app = express();
@@ -32,6 +33,7 @@ app.use("/", indexRouter);
 app.use("/auth", authRouter);
 app.use("/users", usersRouter);
 app.use("/posts", postsRouter);
+app.use("/public", publicPosts);
 app.use("/comments", commentsRouter);
 
 app.all("*", (req, res) => {
