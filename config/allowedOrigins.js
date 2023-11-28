@@ -1,3 +1,3 @@
-const allowedOrigins = ["http://localhost:3001"];
+const allowedOrigins = ["https://bincika.onrender.com/"];
 
 module.exports = allowedOrigins;
