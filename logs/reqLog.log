@@ -3473,3 +3473,11 @@
 20231128	14:16:47	69a332f0-a4c1-4fdd-9b33-3385563c1527	OPTIONS	/users	https://bincika.onrender.com
 20231128	14:16:47	505232a5-f702-4740-9841-379178297e0f	GET	/posts	https://bincika.onrender.com
 20231128	14:16:47	e68c7829-ec66-417a-af8d-2904f5c99748	GET	/users	https://bincika.onrender.com
+20231128	14:42:46	441e04ee-de43-4dde-8235-03b98bd25ff7	GET	/public	http://localhost:3001
+20231128	14:43:02	f6d3d314-9c6a-4833-96e8-133067822aba	GET	/public	http://localhost:3001
+20231128	14:43:18	8a8c0612-16c2-4b76-b926-4b32a495e268	GET	/public	http://localhost:3001
+20231128	14:43:34	dc86ce75-55a0-4d0d-98e4-9b01d0e85d8a	GET	/public	http://localhost:3001
+20231128	14:43:47	9c79d8e4-22a2-46fd-a99d-e3eb95bc8adf	GET	/public	http://localhost:3001
+20231128	14:44:03	1e5a8d51-274f-464b-9b5d-dc2117491ead	GET	/public	http://localhost:3001
+20231128	14:44:19	c3f3d11b-911d-4487-a40b-af46478ec87a	GET	/public	http://localhost:3001
+20231128	14:44:35	3c8ef486-6825-4bb9-afc7-2091cbeaec64	GET	/public	http://localhost:3001
