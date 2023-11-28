@@ -112,7 +112,6 @@ exports.user_delete = asyncHandler(async (req, res) => {
 
   const post = await Post.findOne({ author: id }).lean().exec();
 
-  console.log(post);
   if (post) {
     return res.status(400).json({ message: "This user has assigned posts" });
   }

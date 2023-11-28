@@ -32,8 +32,6 @@ exports.login = asyncHandler(async (req, res) => {
     { expiresIn: "20m" }
   );
 
-  console.log(findUser.username);
-
   const refreshToken = jwt.sign(
     { username: findUser.username },
     process.env.REFRESH_TOKEN_SECRET,
@@ -52,8 +50,6 @@ exports.login = asyncHandler(async (req, res) => {
 
 exports.signup = asyncHandler(async (req, res) => {
   const { username, first_name, last_name, email, password } = req.body;
-
-  console.log(username, first_name, last_name, email, password);
 
   if ((!username || !password || !first_name || !last_name, !email)) {
     return res.status(400).json({ message: "All fields are required!" });
@@ -90,8 +86,6 @@ exports.signup = asyncHandler(async (req, res) => {
 exports.refresh = asyncHandler(async (req, res) => {
   const cookies = req.cookies;
 
-  console.log(cookies);
-
   if (!cookies?.jwt) return res.status(401).json({ message: "Unauthorized" });
 
   const refreshToken = cookies.jwt;
@@ -120,8 +114,6 @@ exports.refresh = asyncHandler(async (req, res) => {
         process.env.ACCESS_TOKEN_SECRET,
         { expiresIn: "20m" }
       );
-
-      console.log(accessToken);
 
       res.json({ accessToken });
     })

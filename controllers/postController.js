@@ -63,11 +63,8 @@ exports.post_create = [
         .status(400)
         .json({ message: "Title already used by another author" });
     }
-    console.log(author);
 
     const findAuthor = await User.findOne({ username: author }).exec();
-
-    console.log(findAuthor);
 
     if (!findAuthor) {
       return res.status(400).json({ message: "Could not find author" });
