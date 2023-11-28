@@ -40,8 +40,8 @@ exports.login = asyncHandler(async (req, res) => {
 
   res.cookie("jwt", refreshToken, {
     httpOnly: true, // accessible only by web server
-    // secure: true, // https
-    // sameSite: "None", // cross-site cookie
+    secure: true, // https
+    sameSite: "None", // cross-site cookie
     maxAge: 7 * 24 * 60 * 60 * 1000, // cookie expiry set to match refresh token
   });
 
@@ -86,6 +86,8 @@ exports.signup = asyncHandler(async (req, res) => {
 exports.refresh = asyncHandler(async (req, res) => {
   const cookies = req.cookies;
 
+  console.log(cookies);
+
   if (!cookies?.jwt) return res.status(401).json({ message: "Unauthorized" });
 
   const refreshToken = cookies.jwt;
@@ -125,8 +127,8 @@ exports.logout = asyncHandler(async (req, res) => {
   if (!cookies?.jwt) return res.sendFile(204);
   res.clearCookie("jwt", {
     httpOnly: true,
-    // secure: true, // https
-    // sameSite: "None",
+    secure: true, // https
+    sameSite: "None",
   });
   res.json({ message: "Cookie cleared" });
 });
