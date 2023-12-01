@@ -26,24 +26,18 @@ exports.post_create = [
   body("title")
     .trim()
     .isLength({ min: 3, max: 1000 })
-    .escape()
     .withMessage("Title cannot be empty"),
   body("dispaly-image.url").escape(),
   body("dispaly-image.owner").escape(),
   body("dispaly-image.source").escape(),
-  body("body")
-    .trim()
-    .notEmpty()
-    .escape()
-    .withMessage("Content cannot be empty"),
-  body("category")
-    .trim()
-    .notEmpty()
-    .escape()
-    .withMessage("Category cannot be empty"),
+  body("body").trim().notEmpty().withMessage("Content cannot be empty"),
+  body("category").trim().notEmpty().withMessage("Category cannot be empty"),
+  body("public").trim(),
 
   asyncHandler(async (req, res) => {
-    const { author, title, body, image, category } = req.body;
+    const { author, title, body, image, category, publicPost } = req.body;
+
+    console.log(publicPost);
 
     const errors = validationResult(req);
 
@@ -76,6 +70,7 @@ exports.post_create = [
       image,
       body,
       category,
+      publicPost,
     });
 
     if (post) {
@@ -92,29 +87,20 @@ exports.post_update = [
   body("title")
     .trim()
     .isLength({ min: 3, max: 1000 })
-    .escape()
     .withMessage("Title cannot be empty"),
-  body("author")
-    .trim()
-    .notEmpty()
-    .escape()
-    .withMessage("Author cannot be empty"),
+  body("author").trim().notEmpty().withMessage("Author cannot be empty"),
   body("display-image.url").escape(),
   body("display-image.owner").escape(),
   body("display-image.source").escape(),
-  body("body")
-    .trim()
-    .notEmpty()
-    .escape()
-    .withMessage("Content cannot be empty"),
-  body("category")
-    .trim()
-    .notEmpty()
-    .escape()
-    .withMessage("Category cannot be empty"),
+  body("body").trim().notEmpty().withMessage("Content cannot be empty"),
+  body("category").trim().notEmpty().withMessage("Category cannot be empty"),
+  body("public").trim(),
 
   asyncHandler(async (req, res) => {
-    const { id, author, title, body, image, comments, category } = req.body;
+    const { id, author, title, body, image, comments, category, publicPost } =
+      req.body;
+
+    console.log(publicPost);
 
     const errors = validationResult(req);
 
@@ -153,6 +139,7 @@ exports.post_update = [
     post.body = body;
     post.comments = comments;
     post.category = category;
+    post.public = publicPost;
 
     const updatedPost = await post.save();
 
