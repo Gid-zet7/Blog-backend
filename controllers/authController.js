@@ -86,8 +86,6 @@ exports.signup = asyncHandler(async (req, res) => {
 exports.refresh = asyncHandler(async (req, res) => {
   const cookies = req.cookies;
 
-  console.log(cookies);
-
   if (!cookies?.jwt) return res.status(401).json({ message: "Unauthorized" });
 
   const refreshToken = cookies.jwt;
