@@ -31,6 +31,11 @@ const PostModel = new Schema(
       type: String,
       required: true,
     },
+
+    public: {
+      type: String,
+      default: "false",
+    },
   },
   {
     timestamps: true,
