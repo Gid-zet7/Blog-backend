@@ -15,11 +15,7 @@ exports.get_comments = asyncHandler(async (req, res) => {
 });
 
 exports.comment_create = [
-  body("content")
-    .trim()
-    .notEmpty()
-    .escape()
-    .withMessage("Comment cannot be empty"),
+  body("content").trim().notEmpty().withMessage("Comment cannot be empty"),
 
   asyncHandler(async (req, res) => {
     const { postId, content, author } = req.body;
